@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Menu, X, ScanEye } from "lucide-react";
 
 const links = [
-  { label: "Home", to: "/" as const, hash: undefined },
-  { label: "Check News", to: "/check" as const, hash: undefined },
+  { label: "Home", to: "/" as const, hash: "" },
+  { label: "Check News", to: "/check" as const, hash: "" },
   { label: "How It Works", to: "/" as const, hash: "how-it-works" },
   { label: "Features", to: "/" as const, hash: "features" },
-  { label: "History", to: "/history" as const, hash: undefined },
-  { label: "About", to: "/about" as const, hash: undefined },
+  { label: "History", to: "/history" as const, hash: "" },
+  { label: "About", to: "/about" as const, hash: "" },
 ];
 
 export function SiteNav() {
