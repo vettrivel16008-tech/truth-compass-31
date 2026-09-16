@@ -115,7 +115,7 @@ function scoreAnalysis(args: {
       value: "Not available",
       note: "External source verification is not configured, so this assessment is based on language and claim analysis only.",
     });
-    score -= 5;
+    // No penalty: an unchecked claim is unverified, not false.
   } else if (evidenceVerdict === "supported") {
     score += 26;
     factors.push({
@@ -138,7 +138,7 @@ function scoreAnalysis(args: {
       note: "Sources both support and contradict parts of the claim.",
     });
   } else {
-    score -= 12;
+    score -= 5;
     factors.push({
       label: "Source evidence",
       value: "None found",
