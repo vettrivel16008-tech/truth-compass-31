@@ -173,7 +173,9 @@ export function CheckPanel() {
         </div>
       </div>
 
-      <div ref={resultRef}>{result && <ResultCard result={result} />}</div>
+      <div ref={resultRef} className="scroll-mt-24">
+        {result && <ResultCard result={result} />}
+      </div>
     </div>
   );
 }
