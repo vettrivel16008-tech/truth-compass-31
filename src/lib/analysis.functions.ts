@@ -289,14 +289,34 @@ export const analyzeNews = createServerFn({ method: "POST" })
       }
 
       // 5-6. Credibility scoring + human readable explanation
-      const { score, factors } = scoreAnalysis({
+      const raw = scoreAnalysis({
         lang,
         evidenceVerdict,
         supporting,
         contradicting,
         searchAvailable,
       });
-      const verdict = verdictFromScore(score);
+      const factors = raw.factors;
+
+      // Evidence decides the verdict. Style and uncertainty never do.
+      const contradictedByEvidence = evidenceVerdict === "contradicted" && contradicting > 0;
+      const supportedByEvidence = evidenceVerdict === "supported" && supporting > 0;
+
+      let score = raw.score;
+      let verdict: AnalysisResult["verdict"];
+      if (contradictedByEvidence) {
+        verdict = "Likely Misleading / Fake";
+        score = Math.min(score, 49);
+      } else if (supportedByEvidence) {
+        score = Math.max(score, 80);
+        verdict = "Likely Reliable";
+      } else {
+        // No evidence found, mixed evidence, or verification unavailable:
+        // that is "unverified", never "false".
+        score = Math.min(Math.max(score, 50), 79);
+        verdict = "Needs Verification";
+      }
+      void verdictFromScore;
 
       const explanation = [
         lang.summary,
